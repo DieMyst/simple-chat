@@ -1,0 +1,54 @@
+.container {
+    display: block;
+}
+
+#sign-in {
+    width: 300px;
+    margin: 50px auto;
+}
+
+#sign-in label,
+#sign-in button {
+    display: block;
+    width: 100%;
+    margin: 10px 4px;
+}
+
+#sign-in label input,
+#sign-in label select {
+    float: right;
+}
+
+.left {
+    width: 80%;
+    float: left;
+}
+
+.right {
+    width: 20%;
+    float: left;
+}
+#chat {
+    padding-top: 30px;
+}
+#menu {
+    margin-bottom: 30px;
+}
+#send-block {
+    margin-top: 30px;
+}
+#chat-container {
+    height: 400px;
+    overflow-y: auto;
+}
+
+#chat-container .message div {
+    display: inline-block;
+}
+
+#chat-container .message .text {
+    padding-left: 10px;
+}
+#chat-container .message .time {
+    padding-right: 20px;
+}

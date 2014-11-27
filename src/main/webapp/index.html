@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>SimpleChat</title>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/main.js"></script>
+</head>
+<body>
+<div class="container">
+    <form id="sign-in">
+        <h2>Добро пожаловать в чат!</h2>
+        <label>
+            Представьтесь:
+            <input type="text" id="nickname">
+        </label>
+        <label>
+            Выберите цвет текста:
+            <select id="color">
+                <option value="black" style="color: black;">Черный</option>
+                <option value="red" style="color: red;">Красный</option>
+                <option value="blue" style="color: blue;">Синий</option>
+                <option value="green" style="color: green;">Зеленый</option>
+            </select>
+        </label>
+        <button id="login">Войти</button>
+    </form>
+    <div id="main">
+        <div id="menu">
+            <span id="greeting"></span>
+            <button id="leave" type="button">Выход</button>
+        </div>
+        <form id="chat">
+            <div class="left">
+
+                <div id="chat-container">
+
+                </div>
+                <div id="send-block">
+                    <label>
+                        <span>Написать:</span>
+                        <input type="text" id="msgInput">
+                        <button id="send" value="Отправить">Отправить</button>
+                    </label>
+                </div>
+            </div>
+            <div class="right">
+                <div id="users-container">
+                    <span>Сейчас в чате:</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
