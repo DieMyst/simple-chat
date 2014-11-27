@@ -18,9 +18,13 @@ public class ChatMessageDecoder implements Decoder.Text<Message> {
     public Message decode(String stringMsg) throws DecodeException {
         Message message = new Message();
         JsonObject obj = Json.createReader(new StringReader(stringMsg)).readObject();
-        message.setMessage(obj.getString("message"));
         message.setNickname(obj.getString("nickname"));
-        message.setColor(obj.getString("color"));
+        if (obj.get("message") != null) {
+            message.setMessage(obj.getString("message"));
+        }
+        if (obj.get("color") != null) {
+            message.setColor(obj.getString("color"));
+        }
         message.setReceived(new Date());
         return message;
     }

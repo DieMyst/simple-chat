@@ -24,7 +24,6 @@ public class ChatEndPoint {
     private static Queue<Nickname> nicknameQueue = new ConcurrentLinkedQueue<>();
 
     private Nickname nickname;
-    private boolean firstEnter = true;
 
     @OnOpen
     public void open(final Session session) throws IOException, EncodeException {
@@ -37,27 +36,30 @@ public class ChatEndPoint {
 
     @OnMessage
     public void onMessage(final Session session, final Message msg) {
-        log.info(msg.getNickname() + " send message");
-
-        messageQueue.add(msg);
         try {
-            if (nickname == null) {
+            //условие для первого сообщения, когда входит юзер
+            if (nickname == null && msg.getMessage() == null) {
                 nickname = new Nickname();
                 nickname.setName(msg.getNickname());
                 nickname.setColor(msg.getColor());
                 nicknameQueue.add(nickname);
+                sendToAll(nicknameQueue);
+                log.info(msg.getNickname() + " connected");
+            } else {
+                log.info(msg.getNickname() + " send message");
+                messageQueue.add(msg);
+                sendToAll(msg);
             }
-            for (Session s : sessionQueue) {
-                if (s.isOpen()) {
-                    s.getBasicRemote().sendObject(msg);
-                    if (firstEnter) {
-                        s.getBasicRemote().sendObject(nicknameQueue);
-                    }
-                }
-            }
-            firstEnter = false;
         } catch (IOException | EncodeException e) {
             log.warning(e.getMessage());
+        }
+    }
+
+    private void sendToAll(Object object) throws IOException, EncodeException {
+        for (Session s : sessionQueue) {
+            if (s.isOpen()) {
+                s.getBasicRemote().sendObject(object);
+            }
         }
     }
 
@@ -65,6 +67,7 @@ public class ChatEndPoint {
     public void close(Session session) {
         sessionQueue.remove(session);
         if (nickname != null) {
+            log.info(nickname.getName() + " close socket");
             nicknameQueue.remove(nickname);
             try {
                 for (Session s : sessionQueue) {
@@ -76,6 +79,12 @@ public class ChatEndPoint {
                 log.warning(e.getMessage());
             }
         }
+
+    }
+
+    @OnError
+    public void error(Session session, Throwable t) {
+        log.warning(t.getMessage());
     }
 }
 
